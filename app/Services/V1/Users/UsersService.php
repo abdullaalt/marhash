@@ -42,27 +42,9 @@ class UsersService{
     public function getUser($user_id = false, $get_admin_data = true){
 
         $user_id = $user_id ? $user_id : Auth::id();
-        $result = [];
-        $result['user'] = new UserResource(User::getUser($user_id));
 
-        if ($result['user']->resource['is_admin'] && $get_admin_data){
-            $gs = new GroupsService();
-            $result['groups'] = $gs->getGroups();
+        return new UserResource(User::getUser($user_id));
 
-            $rs = new RulesService();
-            $result['rules'] =  $rs->getRules();
-        }
-        return $result;
-
-    }
-
-    protected function auth($user_id){
-        $user = User::where('id', $user_id)->first();
-        $result = [
-			'token' => $user->createToken('gos')->plainTextToken,
-            'user' => $this->getUser($user_id)
-        ];
-        return $result;
     }
 
 }

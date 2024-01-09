@@ -47,7 +47,7 @@ class AuthenticatedSessionController extends Controller
 	public function token(Request $request)
 	{
 		$validator = Validator::make($request->all(), [
-			'phone' => ['required', 'string'],
+			'email' => ['required', 'string'],
 			'password' => ['required', 'string', 'min:6'],
 			'device_name' => ['required', 'string']
 		]);    
@@ -57,7 +57,7 @@ class AuthenticatedSessionController extends Controller
 		}
 		// 1
 	 
-		$user = User::where('phone', $request->phone)->first();
+		$user = User::where('email', $request->email)->first();
 		// 2
 	 
 		if (!$user || !Hash::check($request->password, $user->password)) {

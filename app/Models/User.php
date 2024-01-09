@@ -24,14 +24,9 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'phone',
-        'uuid',
-        'password',
-        'is_admin',
-        'nickname',
-        'is_admin',
-        'group_id',
-        'email'
+        'email',
+        'username',
+        'password'
     ];
 
     /**
@@ -41,9 +36,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
+        'remember_token'
     ];
 
     /**
@@ -66,14 +59,7 @@ class User extends Authenticatable
 
     static function getUser($user_id){
 
-        $user = self::where('users.id', $user_id)->leftJoin('users_groups', 'users.group_id', '=', 'users_groups.id')->
-            leftJoin('users_models_binds', 'users.id', '=', 'users_models_binds.user_id')->
-            select('users.*', 'users_models_binds.model_name', 'users_models_binds.item_id', 'users_groups.name', 'users_groups.title')->first()->toArray();
-//dd($user);
-        unset($user['password']);
-        unset($user['remember_token']);
-
-        return $user;
+        return self::find($user_id);
 
     }
 }
