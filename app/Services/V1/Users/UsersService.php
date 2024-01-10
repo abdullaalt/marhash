@@ -2,9 +2,6 @@
 
 namespace App\Services\V1\Users;
 
-use App\Models\Models;
-use App\Models\modelsField;
-use App\Models\usersModelsBind;
 use App\Models\User;
 //use App\Models\instCard;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +11,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 use App\Http\Resources\V1\UserResource;
-
-use App\Services\V1\Users\GroupsService;
-use App\Services\V1\Rules\RulesService;
 
 /*
  * 

@@ -3,10 +3,14 @@
 namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-//use App\Http\Resources\SourceResource;
+use App\Http\Resources\V1\UserResource;
 
-class UserResource extends JsonResource
+class TeamResource extends JsonResource
 {
+    
+    private array $actions = [
+        'CELEBRATE' => 'Поздравить и не заходить'
+    ];
     /**
      * Преобразовать ресурс в массив.
      *
@@ -18,9 +22,8 @@ class UserResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'username'=>$this->username,
-            'avatar'=>$this->avatar,
-            'email' => $this->email
+            'description'=>$this->description,
+            'user' => new UserResource($this->user)
         ];
     }
 }

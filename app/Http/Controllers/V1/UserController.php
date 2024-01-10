@@ -3,20 +3,14 @@
 namespace App\Http\Controllers\V1;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Cookie;
 
 use App\Http\Controllers\V1\Controller;
 
-use App\Services\V1\Users\GroupsService;
 use App\Services\V1\Users\UsersService;
-use App\Services\V1\Users\GosuslugiService;
-use App\Services\V1\Users\GUService;
 
 use App\Http\Resources\V1\UserResource;
-use App\Http\Resources\V1\ContentResource;
-use App\Http\Resources\V1\ContentListResource;
 
 use App\Services\V1\Rules\PermissionsService;
 
