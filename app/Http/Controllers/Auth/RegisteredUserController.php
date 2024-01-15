@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Str;
 use App\Models\Content;
+use App\Services\V1\Users\UsersService;
 
 class RegisteredUserController extends Controller
 {
@@ -38,46 +39,30 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'fio' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'gender' => ['required', 'string', 'max:6']
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()]
         ]);
-		
 //dd($request);
         $user = User::create([
-            'phone' => $request->phone,
+            'username' => $request->username,
+            'email' => $request->email,
             'uuid' => (string) Str::uuid(),
             'password' => Hash::make($request->password)
         ]);
-		
-		$content = new Content();
-		$card = $content->getCardByNumber($request->phone);
-		if (!$card){
-			$card = array();
-			$values = explode(' ', $request->fio);
-			$card['user_id'] = $user->id;
-			$card['surname'] = $values[0];
-			$card['name'] = isset($values[1]) ? $values[1] : 'Без имени';
-			$card['patronymic'] = isset($values[2]) ? $values[2] : 'Без отчества';
-			if (!empty($request->born)){
-				$card['birthdate'] = date('Y-m-d', strtotime($request->born));
-			}else{
-				$card['birthdate'] = 2000;
-			}
-			$card['phone'] = $request->phone;
-			$card['target'] = 9;
-			$card['gender'] = $request->gender;
-			$card['city_id'] = 1;
-			$card['uuid'] = (string) Str::uuid();
-						
-			$card_id = $content->addUserCard($card);
-		}
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        $us = new UsersService();
+        $current_user = $us->getUser($user->id, false);
+
+        $result = [
+			'token' => $user->createToken('mobile')->plainTextToken,
+            'user' => $current_user['user']
+        ];
+
+        return response()->json($result);
     }
 }

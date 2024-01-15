@@ -25,7 +25,8 @@ class TeamsUsersBind extends Authenticatable
      */
     protected $fillable = [
         'user_id',
-        'team_id'
+        'team_id',
+        'status'
     ];
 
     public function user(){

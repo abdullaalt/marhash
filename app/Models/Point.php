@@ -35,6 +35,10 @@ class Point extends Authenticatable
         return $this->belongsTo(User::class);
     }
 
+    public function TeamsPointsBind(){
+        return $this->hasOne(TeamsPointsBind::class);
+    }
+
     static function getUserPoints(int $user_id):object{
 
         return self::where('user_id', $user_id)->get();

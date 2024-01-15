@@ -3,14 +3,18 @@
 namespace App\Services\V1\Users;
 
 use App\Models\User;
+use App\Models\TeamsUsersBind;
 //use App\Models\instCard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
+use App\Services\V1\Teams\TeamsItemsService;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 use App\Http\Resources\V1\UserResource;
+use App\Http\Resources\V1\TeamResource;
 
 /*
  * 
@@ -37,7 +41,20 @@ class UsersService{
 
         $user_id = $user_id ? $user_id : Auth::id();
 
-        return new UserResource(User::getUser($user_id));
+        $invs = TeamsUsersBind::where('user_id', $user_id)->where('status', 0)->get();
+
+        $teams = [];
+        foreach ($invs as $inv){
+            $teams[] = $inv->team;
+        }
+
+        $teamsItemsService = new TeamsItemsService();
+
+        return [
+            'user' => new UserResource(User::getUser($user_id)),
+            'invs' => TeamResource::collection($teams),
+            'teams' => $teamsItemsService->getUserTeams($user_id, true)
+        ];
 
     }
 

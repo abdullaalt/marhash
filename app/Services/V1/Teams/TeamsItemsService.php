@@ -4,17 +4,25 @@ namespace App\Services\V1\Teams;
 
 use App\Http\Resources\V1\PointResource;
 use App\Models\Team;
+use App\Models\TeamsUsersBind;
 
 use App\Http\Resources\V1\TeamResource;
 use App\Http\Resources\V1\TeamBindResource;
 
 final class TeamsItemsService extends TeamsService{
 
-    public function getUserTeams(int $user_id, bool|null $as_resource = false):object{
+    public function getUserTeams(int $user_id, bool|null $as_resource = false):object|array{
 
-        $teams = Team::getUserTeams($user_id);
+        $teams = TeamsUsersBind::where('user_id', $user_id)->where('status', 1)->get();
 
-        return !$as_resource ? $teams : TeamResource::collection($teams);
+        $result = [];
+        foreach ($teams as $team){
+            $result[] = $team->team;
+        }
+
+        //$teams = Team::getUserTeams($user_id);
+
+        return !$as_resource ? $result : TeamResource::collection($result);
 
     }
 

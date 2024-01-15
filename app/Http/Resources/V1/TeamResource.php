@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\V1\UserResource;
+use App\Http\Resources\V1\TeamBindResource;
 
 class TeamResource extends JsonResource
 {
@@ -23,7 +24,8 @@ class TeamResource extends JsonResource
         return [
             'id'=>$this->id,
             'description'=>$this->description,
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
+            'persons' => TeamBindResource::collection($this->TeamsUsersBind)
         ];
     }
 }

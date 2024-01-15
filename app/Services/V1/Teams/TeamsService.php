@@ -30,7 +30,7 @@ abstract class TeamsService{
     }
 
     public function addTeamPoint(int $team_id, int $point_id){
-        if (TeamsPointsBind::where('point_id', $point_id)->where('team_id', $team_id)->exists()){
+        if (TeamsPointsBind::where('point_id', $point_id)->exists()){
             return true;
         }
 
@@ -42,6 +42,7 @@ abstract class TeamsService{
 
         TeamsPointsBind::create([
             'point_id' => $point_id,
+            'user_id' => $point->user_id,
             'team_id' => $team_id
         ]);
     }
@@ -95,6 +96,15 @@ abstract class TeamsService{
     protected function getTeam(int $team_id):object{
 
         return Team::find($team_id);
+
+    }
+
+    protected function removePersonFromTeam(int $team_id, int $user_id):bool{
+
+        TeamsUsersBind::where('user_id', $user_id)->where('team_id', $team_id)->delete();
+        TeamsPointsBind::where('user_id', $user_id)->where('team_id', $team_id)->delete();
+
+        return true;
 
     }
 

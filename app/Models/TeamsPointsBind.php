@@ -25,6 +25,7 @@ class TeamsPointsBind extends Authenticatable
      */
     protected $fillable = [
         'point_id',
+        'user_id',
         'team_id'
     ];
 

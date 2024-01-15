@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 use App\Http\Controllers\V1\PointsController;
 use App\Http\Controllers\V1\UserController;
@@ -18,7 +19,7 @@ use App\Http\Controllers\V1\TeamsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/profile', [UserController::class, 'getUser']);
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'getUser']);
 
 Route::get('/hello', function (Request $request) {
     return 'hello';
@@ -44,6 +45,7 @@ Route::prefix('teams')->middleware('auth:sanctum')->group(function(){
     Route::delete('/{team_id}', [TeamsController::class, 'deleteTeam']);
 
     Route::get('/{team_id}/persons', [TeamsController::class, 'teamPersons']);
+    Route::delete('/{team_id}/persons/{person_id}', [TeamsController::class, 'deletePersonFromTeam']);
 
     Route::get('/{team_id}/points', [TeamsController::class, 'teamPoints']);
     Route::delete('/{team_id}/points', [TeamsController::class, 'deletePoints']);
@@ -51,10 +53,14 @@ Route::prefix('teams')->middleware('auth:sanctum')->group(function(){
 
     Route::get('/{team_id}/invitations', [TeamsController::class, 'teamInvitations']);
     Route::post('/{team_id}/invitations', [TeamsController::class, 'addInvitation']);
-    Route::post('/{team_id}/invitations/accept', [TeamsController::class, 'acceptInvitation']);
+    Route::get('/{team_id}/invitations/accept', [TeamsController::class, 'acceptInvitation']);
+    Route::get('/{team_id}/invitations/reject', [TeamsController::class, 'rejectInvitation']);
 });
 
 Route::prefix('sanctum')->namespace('API')->group(function() {
     //Route::middleware('auth:sanctum')->post('register', 'AuthController@register');
     Route::post('token', [AuthenticatedSessionController::class, 'token']);
 });
+
+Route::post('/register', [RegisteredUserController::class, 'store'])
+                ->middleware('guest');

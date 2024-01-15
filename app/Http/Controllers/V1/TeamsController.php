@@ -10,7 +10,7 @@ use App\Services\V1\Teams\TeamsStoreService;
 
 final class TeamsController extends Controller{
 
-    public function teams(TeamsItemsService $teamsItemsService):object{
+    public function teams(TeamsItemsService $teamsItemsService):object|array{
 
         $teams = $teamsItemsService->getUserTeams(request()->user()->id);
 
@@ -30,7 +30,7 @@ final class TeamsController extends Controller{
 
     }
 
-    public function deleteTeam($point_id, teamsStoreService $teamsStoreService):object{
+    public function deleteTeam($point_id, teamsStoreService $teamsStoreService):bool{
 
         return $teamsStoreService->deleteTeam($point_id);
 
@@ -60,8 +60,16 @@ final class TeamsController extends Controller{
         return $teamsStoreService->addInvitation($team_id, $request);
     }
 
-    public function acceptInvitation(int $team_id, Request $request, TeamsStoreService $teamsStoreService):object{
-        return $teamsStoreService->acceptInvitation($team_id, $request);
+    public function acceptInvitation(int $team_id, TeamsStoreService $teamsStoreService):object{
+        return $teamsStoreService->acceptInvitation($team_id);
+    }
+
+    public function rejectInvitation(int $team_id, TeamsStoreService $teamsStoreService):object{
+        return $teamsStoreService->deletePersonFromTeam($team_id, request()->user()->id);
+    }
+
+    public function deletePersonFromTeam(int $team_id, int $person_id, TeamsStoreService $teamsStoreService):object{
+        return $teamsStoreService->deletePersonFromTeam($team_id, $person_id);
     }
 
 }

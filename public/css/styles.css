@@ -1,0 +1,365 @@
+main {
+    max-width: 450px;
+    margin: 0 auto;
+    background: #F0F0F0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+html {
+    height: 100%;
+}
+a.logo {
+    font-size: 25px;
+    font-family: 'Jost', sans-serif;
+    color: #000;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    line-height: 60px;
+}
+
+header {
+    height: 60px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.footer {
+    height: 60px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    /* bottom: 0; */
+    background: rgb(187 187 187 / 60%);
+}
+
+* {
+    box-sizing: border-box;
+   
+}
+
+a.menu-button {
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+}
+
+a.menu-button.teams {
+    background: url(../images/teams.svg) center center no-repeat #fff;
+}
+
+a.menu-button.points {
+    background: url(../images/point.svg) center center no-repeat #fff;
+}
+
+a.menu-button.profile {
+    background: url(../images/profile.svg) center center no-repeat #fff;
+}
+
+.footer a.add {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    background: #FBFBFB;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Jost', sans-serif;
+    text-align: center;
+    line-height: 30px;
+    margin: 5px 0 0 -7px;
+    position: relative;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.menu-button-container {
+    display: flex;
+}
+
+.map iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.map {
+    flex: 2;
+    overflow: hidden;
+}
+div#main-map {
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+}
+.slideUp-container {
+    position: absolute;
+    bottom: -100%;
+    z-index: 1000;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    height: 100%;
+}
+
+body {
+    max-width: 450px;
+    margin: 0 auto;
+    position: relative;
+    font-family: 'Open Sans';
+    overflow: hidden;
+    height: 100%;
+}
+
+.field label span {
+    font-size: 14px;
+    font-weight: 500;
+    padding-bottom: 3px;
+    display: block;
+}
+
+.field {
+    margin-bottom: 10px;
+}
+
+input.text-input {width: 100%;height: 40px;border: 1px solid #ccc;border-radius: 3px;padding-left: 10px;color: #333;font-size: 13px;}
+.slideUp-container-content {
+    position: absolute;
+    left: 3px;
+    right: 3px;
+    bottom: 0px;
+    max-height: 90%;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0px -10px 10px rgba(0,0,0,0.2);
+    overflow-y: auto;
+}
+
+.button {
+    background: #2d9b7d;
+    padding: 10px 20px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+.loader {
+    background: url(../images/loader.gif) center center no-repeat;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    z-index: 1001;
+}
+.team-item {
+    margin-bottom: 10px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.team-actions {
+    width: 160px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.team-name {
+}
+
+.team-actions a {
+    color: #e55555;
+    border-bottom: 1px dashed;
+    font-size: 12px;
+    max-height: 20px;
+}
+
+.team-persons{
+    display: none;
+}
+a.back {
+    color: #e55555;
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.teams-persons-filter {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.teams-persons-filter > a {
+    background: #55c3e5;
+    color: #fff;
+    font-size: 12px;
+    padding: 5px;
+    border-radius: 3px;
+    display: block;
+}
+.teams-persons-filter > a.active-filter {
+    background: #429fbb;
+}
+.team-person {
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-between;
+    font-size: 13px;
+}
+a.button.mini-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin: 5px 0;
+}
+.points-item {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 13px;
+    padding-bottom: 30px;
+    position: relative;
+}
+
+.point-info {
+    width: 59%;
+}
+
+.point-info .who {
+    font-weight: bold;
+}
+
+.points-item .team-actions {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.points-item .action {
+    background: #f7f7f7;
+    border-radius: 3px;
+    padding: 5px;
+    width: 40%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 12px;
+    justify-content: center;
+}
+
+.points-item:after {
+    content: "";
+    position: absolute;
+    height: 1px;
+    width: 60%;
+    background: #ccc;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+span.hint {
+    font-size: 11px;
+    color: #666;
+}
+
+div#addmap {
+    width: 100%;
+    height: 400px;
+}
+
+select {
+    height: 40px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding-left: 10px;
+}
+header, .footer {
+    position: relative;
+    /* left: 0; */
+    /* right: 0; */
+    z-index: 1;
+}
+
+header {
+    top: 0;
+    z-index: 999;
+    background: rgb(187 187 187 / 60%);
+}
+span.new-invc {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #f34c4c;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    color: #fff;
+    font-size: 12px;
+}
+
+.main-info span {
+    font-size: 13px;
+    display: block;
+    margin: 5px 0;
+}
+
+.main-info span b {
+    padding-right: 10px;
+    color: #555;
+}
+
+.main-info {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.team-item b {
+    color: #555;
+    padding-right: 10px;
+}
+.team-actions div span {
+    font-weight: 600;
+}
+
+.team-actions div {
+    color: #555;
+    max-width: 50%;
+}
+.points-item .action span {
+    flex: none;
+    display: block;
+    margin: 5px;
+    width: 100%;
+    text-align: center;
+}
+.filter-panel {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 5px;
+}
+
+.filter-panel > div {
+    flex: 1;
+}
+
+.team-points-list {
+    margin-top: 20px;
+}
+
+.points-item .address {
+    font-size: 11px;
+}

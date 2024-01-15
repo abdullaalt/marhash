@@ -2,11 +2,14 @@
 
 namespace App\Services\V1\Teams;
 
+use App\Models\TeamsPointsBind;
+use App\Models\User;
 use App\Models\Team;
 use App\Models\TeamsUsersBind;
 
 use App\Http\Resources\V1\TeamResource;
 use App\Http\Resources\V1\PointResource;
+use App\Http\Resources\V1\TeamBindResource;
 
 final class TeamsStoreService extends TeamsService{
 
@@ -45,6 +48,10 @@ final class TeamsStoreService extends TeamsService{
         }
 
         Team::find($team_id)->delete();
+        TeamsUsersBind::where('team_id', $team_id)->delete();
+        TeamsPointsBind::where('team_id', $team_id)->delete();
+
+        return true;
     }
 
     public function addInvitation(int $team_id, object $request){
@@ -52,14 +59,38 @@ final class TeamsStoreService extends TeamsService{
             return response()->json(['error' => 'Нет доступа'], 403);
         }
 
+        $user = User::find($request->user_id);
+
+        if (!$user){
+            return response()->json(['error' => 'Пользователь не найден'], 400);
+        }
+
         $this->addPersonToTeam($request->user_id, $team_id);
 
-        return $this->getTeamInvitations($team_id);
+        return TeamBindResource::collection($this->getTeamInvitations($team_id));
     }
 
-    public function acceptInvitation(int $team_id, object $request){
+    public function acceptInvitation(int $team_id){
 
-        return $this->acceptInvitationToTeam($request->user_id, $team_id);
+        return $this->acceptInvitationToTeam(request()->user()->id, $team_id);
+
+    }
+
+    public function deletePersonFromTeam(int $team_id, int $person_id){
+
+        if (!$this->isAccessToTeam($team_id) && $person_id != request()->user()->id){
+            return response()->json(['error' => 'Нет доступа'], 403);
+        }
+
+        $team = $this->getTeam($team_id);
+
+        if ($team->user_id == $person_id){
+            return response()->json(['error' => 'Нет доступа'], 403);
+        }
+
+        $this->removePersonFromTeam($team_id, $person_id);
+
+        return TeamBindResource::collection($this->getTeamPersons($team_id));
 
     }
 

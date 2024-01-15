@@ -23,5 +23,5 @@ Route::get('/hello', function (Request $request) {
 });
 
 Route::get('/', function(){
-	return 'hello';
+	return view('main');
 });

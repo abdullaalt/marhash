@@ -9,7 +9,12 @@ class PointResource extends JsonResource
 {
     
     private array $actions = [
-        'CELEBRATE' => 'Поздравить и не заходить'
+        'CELEBRATE' => 'Поздравить и не заходить',
+        'GIVEMEMINUTE' => 'Зайду и быстро выйду',
+        'TEA' => 'Попьем чай',
+        'EAT' => 'Поедим',
+        'FULL' => 'И чай и еда',
+        'IDONTKNOW' => 'По ситуации'
     ];
     /**
      * Преобразовать ресурс в массив.
@@ -26,7 +31,8 @@ class PointResource extends JsonResource
             'coords'=>$this->coords,
             'who' => $this->who,
             'action' => $this->actions[$this->action],
-            'user' => new UserResource($this->user)
+            'user' => new UserResource($this->user),
+            'bind' => @$this->TeamsPointsBind->team
         ];
     }
 }

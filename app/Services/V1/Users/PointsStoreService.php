@@ -44,6 +44,8 @@ final class PointsStoreService extends PointsService{
 
         TeamsPointsBind::where('point_id', $point_id)->delete();
         Point::find($point_id)->delete();
+
+        return (object)['point_id' => $point_id];
     }
 
 }
